@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Quán Anh Ken · Nhậu Online</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍻</text></svg>">
+<meta name="theme-color" content="#1a0d08">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="scene"></canvas>
+<div id="drunkFx"></div>
+<div id="loading"><div class="spin">🍻</div><span>Đang kê bàn, ướp bia…</span></div>
+
+<section id="join">
+  <form id="joinForm" class="join-card">
+    <div class="eyebrow">Quán vỉa hè · Multiplayer · Tiền ảo</div>
+    <h1>Quán <em>Anh Ken</em></h1>
+    <p class="slogan">Một, hai, ba… <b>DZÔ!</b> <span class="phone">☎ 098 864 9841</span></p>
+    <p class="lead">Mỗi người được tặng <b>500.000đ</b> tiền nhậu. Kiếm bàn 4 – 16 người, gọi ốc gọi bia, mời phục vụ ra ngồi nâng ly, oẳn tù tì, xoay chai, lắc xúc xắc. Hết tiền thì vô quán rửa chén kiếm thêm!</p>
+    <label class="field"><span>Tên giang hồ</span><input id="name" maxlength="18" placeholder="VD: Tuấn Bia" autocomplete="off" required></label>
+    <div class="field"><span>Nhân vật</span><div class="genders"><button type="button" class="gbtn on" data-g="nam">👨 Nam</button><button type="button" class="gbtn" data-g="nu">👩 Nữ</button></div></div>
+    <div class="field"><span>Màu áo</span><div id="shirts" class="swatches"></div></div>
+    <div class="field"><span>Kiểu tóc</span><div id="hairs" class="chips"></div></div>
+    <button class="primary" type="submit">Tấp vô quán <span>🛵</span></button>
+    <p class="note">🚫 Tiền trong game là tiền ảo. Đã uống rượu bia thì không lái xe nha!</p>
+  </form>
+</section>
+
+<section id="hud" hidden>
+  <div class="chip place"><div class="pico">🍻</div><div><div id="zone" class="zone">Vỉa hè</div><div id="zoneSub" class="zone-sub">Kiếm bàn trống ngồi đi!</div></div></div>
+
+  <div class="top-right">
+    <div class="chip stat"><i class="dot"></i><b id="count">1</b>&nbsp;đang nhậu</div>
+    <div class="chip stat moneychip" title="Ví tiền">💰&nbsp;<b id="money">0đ</b></div>
+    <div class="chip stat">⭐&nbsp;<b id="score">0</b></div>
+    <div class="chip stat phe" title="Độ phê"><span>🥴</span><div class="bar"><i id="pheBar"></i></div></div>
+    <button id="boardBtn" class="chip icon-btn" type="button" title="Bảng vàng">🏆</button>
+    <button id="qualBtn" class="chip icon-btn" type="button" title="Chất lượng đồ hoạ">HD</button>
+    <button id="soundBtn" class="chip icon-btn" type="button" title="Âm thanh">🔊</button>
+  </div>
+  <div id="board" class="chip board" hidden><div class="ttl">🏆 Bảng vàng tối nay</div><ol id="boardList"><li>Chưa có ai…</li></ol></div>
+
+  <div id="prompt" class="prompt"></div>
+  <div id="cartPrompt" class="prompt cart"></div>
+
+  <div id="seatBar" class="actions" hidden>
+    <button type="button" class="act big" data-a="dzo"><span class="ico">🥂</span><span class="lbl">DZÔ!</span><kbd>Space</kbd></button>
+    <button type="button" class="act" data-a="drink"><span class="ico">🍺</span><span class="lbl">Uống</span><kbd>R</kbd></button>
+    <button type="button" class="act" data-a="glass"><span class="ico" id="glassIco">🍺</span><span class="lbl" id="glassLbl">Ly bia</span><kbd>G</kbd></button>
+    <button type="button" class="act" data-a="menu"><span class="ico">📋</span><span class="lbl">Gọi món</span><kbd>M</kbd></button>
+    <button type="button" class="act" data-a="staff"><span class="ico">🥂</span><span class="lbl">Mời ngồi</span><kbd>N</kbd></button>
+    <button type="button" class="act" data-a="rps"><span class="ico">✊</span><span class="lbl">Oẳn tù tì</span><kbd>1</kbd></button>
+    <button type="button" class="act" data-a="spin"><span class="ico">🍾</span><span class="lbl">Xoay chai</span><kbd>2</kbd></button>
+    <button type="button" class="act" data-a="dice"><span class="ico">🎲</span><span class="lbl">Xúc xắc</span><kbd>3</kbd></button>
+    <button type="button" class="act" data-a="bill"><span class="ico">🧾</span><span class="lbl">Hoá đơn</span><kbd>B</kbd></button>
+    <button type="button" class="act" data-a="stand"><span class="ico">🚶</span><span class="lbl">Đứng dậy</span><kbd>E</kbd></button>
+  </div>
+
+  <div class="chat">
+    <div id="messages" class="messages"></div>
+    <form id="chatForm" class="chat-row">
+      <button type="button" id="scopeBtn" class="scope">Quán</button>
+      <input id="chatInput" maxlength="140" placeholder="Enter để chat…" autocomplete="off">
+      <button type="submit" aria-label="Gửi">➤</button>
+    </form>
+  </div>
+
+  <div id="dzoBig" class="dzo-big"></div>
+  <div id="stick" class="stick"><div class="knob"></div></div>
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <!-- Panels -->
+  <div id="menuPanel" class="panel" hidden>
+    <div class="ph"><b>📋 Thực đơn</b><button type="button" class="x" data-close>✕</button></div>
+    <div id="menuList" class="menu-list"></div>
+    <div class="pf"><span>Tổng: <b id="menuTotal">0đ</b></span><button type="button" class="primary sm" id="orderBtn">Gọi món</button></div>
+  </div>
+  <div id="buyPanel" class="panel" hidden>
+    <div class="ph"><b id="buyTitle">🛒 Xe đẩy</b><button type="button" class="x" data-close>✕</button></div>
+    <div id="buyList" class="menu-list"></div>
+  </div>
+  <div id="billPanel" class="panel" hidden>
+    <div class="ph"><b>🧾 Hoá đơn</b><button type="button" class="x" data-close>✕</button></div>
+    <div id="billList" class="bill"></div>
+    <div class="pf col"><div id="billTotal" class="total"></div>
+      <div class="row"><button type="button" class="ghost sm" id="clearBtn">🧹 Kêu dọn bàn</button></div></div>
+  </div>
+  <div id="staffPanel" class="panel" hidden>
+    <div class="ph"><b>🥂 Mời phục vụ ngồi nâng ly</b><button type="button" class="x" data-close>✕</button></div>
+    <p class="pnote">50.000đ / 5 phút · ngồi ghế trống gần bạn nhất, cụng ly & trò chuyện cùng bàn</p>
+    <div id="staffList" class="menu-list"></div>
+  </div>
+  <div id="washPanel" class="panel game wash" hidden>
+    <h3 id="washTitle">🧽 Rửa chén</h3>
+    <canvas id="washCanvas" width="300" height="300"></canvas>
+    <div class="timer"><i id="washBar"></i></div>
+    <p id="washHint">Kéo chuột / vuốt lên vết dơ để kỳ</p>
+    <p id="washCount" class="small"></p>
+    <button type="button" class="ghost sm" id="washStop">Nghỉ tay</button>
+  </div>
+  <div id="rpsPanel" class="panel game" hidden></div>
+  <div id="dicePanel" class="panel game" hidden></div>
+  <div id="cardPanel" class="panel game" hidden></div>
+</section>
+
+<script src="/socket.io/socket.io.js"></script>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
