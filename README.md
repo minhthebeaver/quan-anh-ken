@@ -1,5 +1,5 @@
 # 🍻 Quán Anh Ken — Nhậu Online (v2)
-☎ 098 864 9841 · Quán nhậu vỉa hè Sài Gòn 3D, multiplayer realtime (Three.js + Socket.IO). Tiền ảo.
+☎ Quán nhậu vỉa hè Sài Gòn 3D, multiplayer realtime (Three.js + Socket.IO). Tiền ảo.
 
 ## Chạy
 ```bash
