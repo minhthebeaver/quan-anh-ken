@@ -58,7 +58,7 @@ function signTex() {
     g.shadowColor = '#ffcf3a'; g.shadowBlur = 16; g.fillStyle = '#fff3b8';
     fitText(g, SHOP_NAME, cx, 92, maxW, 132, 900);
     g.shadowBlur = 0; g.fillStyle = '#ffe58a';
-    fitText(g, `BIA LẠNH • ỐC • LẨU • NƯỚNG   ☎ ${SHOP_PHONE}`, cx, 192, maxW, 54, 700);
+    fitText(g, 'BIA LẠNH • ỐC • LẨU • NƯỚNG', cx, 192, maxW, 54, 700);
   });
 }
 function menuTex() {
