@@ -264,7 +264,7 @@ export function buildWorld(scene, renderer) {
   const sign = new THREE.Mesh(new THREE.PlaneGeometry(16, 2.0), new THREE.MeshBasicMaterial({ map: signTex() }));
   sign.position.set(0, 4.85, 6.0); sign.rotation.y = Math.PI; S.add(sign);
   // bảng đứng nhỏ trước quán
-  const stand = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 1.3), new THREE.MeshBasicMaterial({ map: liveTex(256, 360, (g, w, h) => { g.fillStyle = '#c4161c'; g.fillRect(0, 0, w, h); g.fillStyle = '#fff3b0'; g.textAlign = 'center'; g.textBaseline = 'middle'; fitText(g, 'ANH KEN', w / 2, 60, w - 30, 54, 900); g.fillStyle = '#ffffff'; ['BIA LẠNH', 'ỐC • LẨU', 'NƯỚNG'].forEach((t, i) => fitText(g, t, w / 2, 150 + i * 56, w - 30, 40, 800)); g.fillStyle = '#ffe58a'; fitText(g, SHOP_PHONE, w / 2, 324, w - 24, 34, 800); }) }));
+  const stand = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 1.3), new THREE.MeshBasicMaterial({ map: liveTex(256, 360, (g, w, h) => { g.fillStyle = '#c4161c'; g.fillRect(0, 0, w, h); g.fillStyle = '#fff3b0'; g.textAlign = 'center'; g.textBaseline = 'middle'; fitText(g, 'ANH KEN', w / 2, 60, w - 30, 54, 900); g.fillStyle = '#ffffff'; ['BIA LẠNH', 'ỐC • LẨU', 'NƯỚNG'].forEach((t, i) => fitText(g, t, w / 2, 150 + i * 56, w - 30, 40, 800));  }) }));
   stand.position.set(13.4, 0.85, 5.3); stand.rotation.y = Math.PI + 0.3; S.add(stand); addCircle(13.4, 5.3, 0.4);
 
   // Bếp
